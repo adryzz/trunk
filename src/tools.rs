@@ -274,8 +274,12 @@ async fn find_system(app: Application, version: Option<&str>) -> Option<(PathBuf
         );
 
         let text = String::from_utf8_lossy(&output.stdout);
+        if app == Application::TailwindCss {
+            if let Some(ver) = version {
+                return Ok((path, ver.to_string()));
+            }
+        }
         let system_version = app.format_version_output(&text)?;
-
         Ok((path, system_version))
     };
 
